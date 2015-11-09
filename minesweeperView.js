@@ -1,15 +1,26 @@
 var MSBoard = React.createClass({
 
   getInitialState: function() {
+    window.board = new Minesweeper.Board(10, 10);
     return {
-      board: new Minesweeper.Board(10, 10),
+      board: window.board,
       over: false,
       won: false
     };
   },
 
-  updateGame: function() {
-    //update the game somehow
+  updateGame: function(tile, flagged) {
+    if(flagged){
+      tile.toggleFlag();
+    } else {
+      tile.explore();
+    }
+
+    this.setState({
+        over: this.state.board.lost(),
+        won: this.state.board.won(),
+        test: "testing"
+      });
   },
 
   render: function() {
@@ -24,14 +35,14 @@ var Board = React.createClass({
   mapTiles: function(){
     return this.props.board.grid.map(function(row,i) {
         var rowTiles = row.map(function(item, j){
-          return <Tile tile={item} updateGame={this.updateGame} key={[i, j]}/>
-      })
+          return <Tile tile={item} updateGame={this.props.updateGame} key={[i, j]}/>
+      }.bind(this))
 
       return (
         <div>
         {rowTiles}
         </div>
-    )})
+    )}.bind(this))
   },
 
   render: function(){
@@ -48,12 +59,11 @@ var Tile = React.createClass({
     var tile = this.props.tile
     if (tile.flagged){
       return "⚑";
-    } else if (!tile.revealed){
-      return "";
-    } else if (tile.bombed){
+    } else if (tile.bombed && tile.explored){
       return "💣";
-    } else {
-      return tile.adjacentBombCount;
+    } else if (tile.explored) {
+      var value = (tile.adjacentBombCount() === 0) ? "" : tile.adjacentBombCount();
+      return value;
     }
   },
 
@@ -61,18 +71,22 @@ var Tile = React.createClass({
     var tile = this.props.tile
     if (tile.flagged){
       return "tile flagged"
-    } else if (!tile.revealed){
-      return "tile X"
-    } else if (tile.bombed){
+    } else if (tile.explored && tile.bombed){
       return "tile bombed"
-    } else {
+    } else if (tile.explored){
       return "tile revealed"
+    } else {
+      return "tile"
     }
+  },
+
+  handleClick: function(e){
+    this.props.updateGame(this.props.tile, e.altKey)
   },
 
   render: function() {
     return(
-      <div className={this.generateClassName()}> {this.generateOutput()}</div>
+      <div onClick={this.handleClick} className={this.generateClassName()}>{this.generateOutput()}</div>
     )
   }
 });

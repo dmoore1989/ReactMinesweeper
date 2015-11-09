@@ -24,3 +24,11 @@ h1 {
   border: 2px outset grey;
   float: left
 }
+
+.revealed {
+  background: grey;
+}
+
+.bombed {
+  background: grey;
+}
