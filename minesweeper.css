@@ -1,0 +1,26 @@
+.group:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+h1 {
+  text-align: center;
+}
+
+#minesweeper-game {
+  margin: auto;
+  border: 1px solid black;
+  display: block;
+  height: 400px;
+  width: 400px;
+}
+
+.tile {
+  display: block;
+  background: orange;
+  width: 36px;
+  height: 36px;
+  border: 2px outset grey;
+  float: left
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Minesweeper - the best version</title>
+    <script src="https://fb.me/react-0.13.3.js" charset="utf-8"></script>
+    <script src="https://fb.me/JSXTransformer-0.13.3.js" charset="utf-8"></script>
+    <script src="./minesweeperGame.js" type="text/jsx"></script>
+    <script src="./minesweeperView.js" type="text/jsx"></script>
+    <link rel="stylesheet" href="/minesweeper.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+
+    <h1>Minesweeper</h1>
+    <div id="minesweeper-game">
+
+    </div>
+
+    <script type="text/jsx">
+      React.render(
+        <MSBoard />,
+        document.getElementById("minesweeper-game")
+      );
+    </script>
+
+  </body>
+</html>
