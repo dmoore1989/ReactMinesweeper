@@ -16,16 +16,29 @@ var MSBoard = React.createClass({
       tile.explore();
     }
 
+    var over = this.state.board.won() || this.state.board.lost();
+
     this.setState({
-        over: this.state.board.lost(),
+        over: over,
         won: this.state.board.won(),
         test: "testing"
       });
   },
 
+  resetGame: function() {
+    this.setState({
+      board:  new Minesweeper.Board(10, 10),
+      over: false,
+      won: false
+    })
+  },
+
   render: function() {
     return(
-      < Board updateGame={ this.updateGame }  board={ this.state.board } />
+      <div>
+        < Modal won={this.state.board.won()} lost={this.state.board.lost()} gameOverCallback={this.resetGame}/>
+        < Board updateGame={ this.updateGame }  board={ this.state.board } />
+      </div>
     );
   }
 
@@ -89,4 +102,40 @@ var Tile = React.createClass({
       <div onClick={this.handleClick} className={this.generateClassName()}>{this.generateOutput()}</div>
     )
   }
+});
+
+var Modal = React.createClass({
+
+  generateClassName: function(){
+
+    if (this.props.won || this.props.lost) {
+      return "modal-screen show";
+    } else {
+      return "modal-screen";
+    }
+  },
+
+  generateMessage: function(){
+    if (this.props.won){
+      return "YOU WIN!!!!!!!!!!!!!!"
+    } else if (this.props.lost){
+      return "YOU LOSE"
+    }
+    return "HOW DID YOU FIND THIS????"
+  },
+
+  buttonHandler: function(e) {
+    this.props.gameOverCallback();
+  },
+
+
+  render: function(){
+    return (
+      <div className={this.generateClassName()}>
+        <div className="modal-content">
+          {this.generateMessage()}
+          <button className="new-game-button" onClick={ this.buttonHandler }>New Game</button>
+        </div>
+      </div>
+    )}
 });

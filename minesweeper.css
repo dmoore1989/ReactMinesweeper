@@ -17,18 +17,56 @@ h1 {
 }
 
 .tile {
+  font-size: 24px;
   display: block;
   background: orange;
   width: 36px;
   height: 36px;
   border: 2px outset grey;
-  float: left
+  float: left;
+  text-align: center;
 }
 
-.revealed {
-  background: grey;
+.revealed, .bombed {
+  background: lightgrey;
+  border-style: inset;
 }
 
-.bombed {
-  background: grey;
+.modal-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.modal-content {
+  position: absolute;
+  z-index: 1000;
+  text-align: center;
+  font-weight: 700;
+  font-size: 36px;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 50px;
+  margin-left: -250px;
+  transform: translateY(-50%);
+  background: white;
+  border-radius: 5px;
+}
+
+
+.new-game-button {
+  margin: 20px auto;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
 }
